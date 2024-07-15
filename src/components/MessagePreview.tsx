@@ -6,7 +6,15 @@ import ThemeContext, { Theme } from "../contexts/ThemeContext"
 
 // @ts-expect-error Because the package is not typed
 import { MessagePreview } from "@kookapp/kook-message-preview"
-import { Avatar, Typography, Image, Dropdown } from "@douyinfe/semi-ui"
+import {
+  Avatar,
+  Typography,
+  Image,
+  Dropdown,
+  Button,
+  Tooltip,
+} from "@douyinfe/semi-ui"
+import { IconCopy, IconMore } from "@douyinfe/semi-icons"
 
 interface MessageProps {
   message: Message
@@ -18,53 +26,69 @@ export default function Message({ message, participants }: MessageProps) {
   const theme = useContext(ThemeContext)
 
   return (
-    <Dropdown
-      trigger="hover"
-      position="rightTopOver"
-      render={
-        <Dropdown.Menu>
-          <Dropdown.Item
-            onClick={() => navigator.clipboard.writeText(message.id)}
-          >
-            复制 ID
-          </Dropdown.Item>
-          <Dropdown.Item
-            disabled={message.content.type !== "text"}
-            onClick={() =>
-              message.content.type === "text" &&
-              navigator.clipboard.writeText(message.content.text)
-            }
-          >
-            复制原始内容
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      }
-    >
-      <div className="hover:bg-semi-color-bg-1 px-4 py-2">
-        <div className="flex gap-3">
-          <Dropdown
-            trigger="contextMenu"
-            position="bottomLeft"
-            render={
-              <Dropdown.Menu>
-                <Dropdown.Item>复制 ID</Dropdown.Item>
-              </Dropdown.Menu>
-            }
-          >
-            <Avatar src={sender.avatarUrl} alt={sender.name} />
-          </Dropdown>
-          <div className="message-item-right-side">
-            <div className="flex gap-2 items-baseline mb-1">
+    <div className="hover:bg-semi-color-bg-1 px-4 py-2">
+      <div className="flex gap-3">
+        <Dropdown
+          trigger="contextMenu"
+          position="bottomLeft"
+          render={
+            <Dropdown.Menu>
+              <Dropdown.Item>复制 ID</Dropdown.Item>
+            </Dropdown.Menu>
+          }
+        >
+          <Avatar src={sender.avatarUrl} alt={sender.name} />
+        </Dropdown>
+        <div className="flex-1">
+          <div className="flex mb-1">
+            <div className="flex gap-1 items-baseline flex-1">
               <span className="font-bold text-lg">{sender.name}</span>
               <span className="text-xs opacity-80">
                 {new Date(message.timestamp).toLocaleString()}
               </span>
             </div>
-            <MessageContent message={message} theme={theme} />
+            <div className="flex">
+              <Tooltip content="复制原始内容" position="bottom">
+                {message.content.type === "text" ? (
+                  <Button
+                    theme="borderless"
+                    type="tertiary"
+                    icon={<IconCopy />}
+                    onClick={() => {
+                      if (message.content.type !== "text") return
+
+                      navigator.clipboard.writeText(message.content.text)
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </Tooltip>
+              <Dropdown
+                trigger="hover"
+                position="bottomRight"
+                menu={[
+                  {
+                    node: "item",
+                    name: "复制 ID",
+                    onClick: () => {
+                      navigator.clipboard.writeText(message.id)
+                    },
+                  },
+                ]}
+              >
+                <Button
+                  theme="borderless"
+                  type="tertiary"
+                  icon={<IconMore />}
+                />
+              </Dropdown>
+            </div>
           </div>
+          <MessageContent message={message} theme={theme} />
         </div>
       </div>
-    </Dropdown>
+    </div>
   )
 }
 
