@@ -1,6 +1,6 @@
 import { useContext } from "react"
 
-import type { Message, Participant, Ticket } from "../types/ticket"
+import type { Message, Participant } from "../types/ticket"
 
 import ThemeContext, { Theme } from "../contexts/ThemeContext"
 
