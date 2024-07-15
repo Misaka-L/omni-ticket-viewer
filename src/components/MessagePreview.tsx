@@ -1,6 +1,6 @@
 import { useContext } from "react"
 
-import type { Message, Participant } from "../types/ticket"
+import type { Message, Participant, Ticket } from "../types/ticket"
 
 import ThemeContext, { Theme } from "../contexts/ThemeContext"
 
@@ -85,7 +85,11 @@ export default function Message({ message, participants }: MessageProps) {
               </Dropdown>
             </div>
           </div>
-          <MessageContent message={message} theme={theme} />
+          <MessageContent
+            message={message}
+            theme={theme}
+            participants={participants}
+          />
         </div>
       </div>
     </div>
@@ -95,9 +99,11 @@ export default function Message({ message, participants }: MessageProps) {
 function MessageContent({
   message,
   theme,
+  participants,
 }: {
   message: Message
   theme: Theme
+  participants: { [userId: string]: Participant }
 }) {
   if (message.content.type === "image") {
     return (
@@ -117,11 +123,24 @@ function MessageContent({
       type={messageType}
       content={messageContent}
       theme={theme}
-      customMetUserRender={(id: string) => customMentionRenderer("user", id)}
+      customMetUserRender={(id: string) =>
+        MentionUserRenderer(id, participants)
+      }
       customRoleRender={(id: string) => customMentionRenderer("role", id)}
       customChannelRender={(id: string) => customMentionRenderer("channel", id)}
     />
   )
+}
+
+function MentionUserRenderer(
+  id: string,
+  participants: { [userId: string]: Participant }
+) {
+  const user = participants[id]
+
+  if (!user) return customMentionRenderer("user", id)
+
+  return <Typography.Text link={true}>@{user.name}</Typography.Text>
 }
 
 function customMentionRenderer(type: string, id: string) {
