@@ -1,11 +1,11 @@
 // https://github.com/Kokoro-js/ticket-bot-viewer/blob/9ba1914016457ef0724ddbb7b77476accbdf1161/src/types/ITicketJSON.ts
 
-type Ticket = {
+interface Ticket {
   ticketId: string
   ticketTitle: string
   asker: string
-  parameters: { [label: string]: string }
-  participants: { [userId: string]: Participant }
+  parameters: Record<string, string>
+  participants: Record<string, Participant>
   timeline: TimelineEvent[]
   conversation: Message[]
   guildId: string
@@ -14,37 +14,38 @@ type Ticket = {
   instanceName: string
 }
 
-type Participant = {
+interface Participant {
   name: string
   avatarUrl: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 type TimelineEventLabel = "工单开启" | "工单关闭" | "首次回复" | string
 
-type TimelineEvent = {
+interface TimelineEvent {
   label: TimelineEventLabel
   timestamp: string
   userId?: string
 }
 
-type Message = {
+interface Message {
   id: string
   senderId: string
   timestamp: string
   content: TextContent | ImageContent | FileContent | CardContent
 }
 
-type TextContent = {
+interface TextContent {
   type: "text"
   text: string
 }
 
-type ImageContent = {
+interface ImageContent {
   type: "image"
   url: string
 }
 
-type FileContent = {
+interface FileContent {
   type: "file"
   url: string
   name: string
@@ -52,7 +53,7 @@ type FileContent = {
   size: number
 }
 
-type CardContent = {
+interface CardContent {
   type: "card"
   cards: unknown[]
 }

@@ -78,7 +78,7 @@ export default function TicketHeader({
               const url = new URL(window.location.href)
               const src = url.searchParams.get("src")
 
-              navigator.clipboard.writeText(
+              void navigator.clipboard.writeText(
                 `${url.origin}${src ? "?src=" + src : ""}`
               )
             }}

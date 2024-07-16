@@ -19,7 +19,7 @@ export default [{
     ignores: ["**/dist", "**/eslint.config.mjs", "**/postcss.config.js", "**/tailwind.config.js"],
 }, ...fixupConfigRules(compat.extends(
     "eslint:recommended",
-    "plugin:@typescript-eslint/strict-type-checked",
+    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:react/recommended",

@@ -18,7 +18,7 @@ import { IconCopy, IconMore } from "@douyinfe/semi-icons"
 
 interface MessageProps {
   message: Message
-  participants: { [userId: string]: Participant }
+  participants: Record<string, Participant>
 }
 
 export default function Message({ message, participants }: MessageProps) {
@@ -57,7 +57,7 @@ export default function Message({ message, participants }: MessageProps) {
                     onClick={() => {
                       if (message.content.type !== "text") return
 
-                      navigator.clipboard.writeText(message.content.text)
+                      void navigator.clipboard.writeText(message.content.text)
                     }}
                   />
                 ) : (
@@ -72,7 +72,7 @@ export default function Message({ message, participants }: MessageProps) {
                     node: "item",
                     name: "复制 ID",
                     onClick: () => {
-                      navigator.clipboard.writeText(message.id)
+                      void navigator.clipboard.writeText(message.id)
                     },
                   },
                 ]}
@@ -103,7 +103,7 @@ function MessageContent({
 }: {
   message: Message
   theme: Theme
-  participants: { [userId: string]: Participant }
+  participants: Record<string, Participant>
 }) {
   if (message.content.type === "image") {
     return (
@@ -134,7 +134,7 @@ function MessageContent({
 
 function MentionUserRenderer(
   id: string,
-  participants: { [userId: string]: Participant }
+  participants: Record<string, Participant>
 ) {
   const user = participants[id]
 
