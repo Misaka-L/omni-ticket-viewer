@@ -17,8 +17,53 @@ body[theme-mode="light"] {
   color-scheme: light;
 }
 
+/* type=invisible 的卡片 */
+/* https://github.com/laiyuzenb/kook_message_preview/issues/5#issuecomment-2230206831 */
+
 .kui-card.type-invisible {
-  border: none;
-  background: none;
+  background-color: transparent;
+  border-left: none;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0px;
+}
+.kui-card.type-invisible .no-extra {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.kui-card.type-invisible .kui-section .section-content {
+  font-size: 16px;
+}
+.kui-card.type-invisible.kui-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 0;
+}
+.kui-card.type-invisible .kui-container {
+  padding: 0;
+}
+.kui-card.type-invisible .kui-video {
+  padding: 0;
+  max-width: 436px;
+}
+.kui-card.type-invisible .kui-file {
+  padding: 0;
+  background-color: var(--color-top-bg);
+  padding: 12px;
+  max-width: 436px;
+}
+.kui-card.type-invisible .kui-music {
+  padding: 0;
+  background-color: var(--color-top-bg);
+  padding: 12px;
+  max-width: 436px;
+}
+.kui-card.type-invisible .kui-music .kui_iconfont {
+  margin-left: 0;
+}
+.kui-card.type-invisible .kui-music .music-content-icons {
+  flex-direction: row-reverse;
+  gap: 4px;
 }
